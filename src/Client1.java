@@ -1,11 +1,14 @@
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Client1 {
+public class Client1{
     public static void main(String[] args) throws IOException {
-        Socket socket = new Socket("localhost", 8081);
-        PrintWriter out = new PrintWriter(socket.getOutputStream());
-        out.println("hello world");
+        ServerSocket serverSocket = new ServerSocket(8081);
+        Socket socket = serverSocket.accept();
+        OutStream out = new OutStream(socket);
+        InStream in = new InStream(socket);
+        out.start();
+        in.start();
     }
 }
